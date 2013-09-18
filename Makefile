@@ -14,8 +14,11 @@ LNFLAGS = -lm
 SOURCES = main.cpp
 EXECUTABLE = myproject
 
-# Implicit rules
+# Auto-generated-variables
 BUILDDIR = build/$(NAME)-$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)-$(EXTRAVERSION)
+OBJECTS = $(SOURCES:%.cpp=$(BUILDDIR)/%.o)
+
+# Implicit rules
 $(BUILDDIR)/%.o: src/%.cpp
 	mkdir -p $(BUILDDIR)
 	$(CC) $(CFLAGS) -o $(<:src/%.cpp=$(BUILDDIR)/%.o) $<
@@ -24,10 +27,11 @@ $(BUILDDIR)/%.o: src/%.cpp
 clean:
 	rm -rf $(BUILDDIR)
 
-OBJECTS = $(SOURCES:%.cpp=$(BUILDDIR)/%.o)
-compile: $(OBJECTS)
+$(BUILDDIR)/bin/$(EXECUTABLE): $(OBJECTS)
 	mkdir -p $(BUILDDIR)/bin
 	$(CC) -o $(BUILDDIR)/bin/$(EXECUTABLE) $(OBJECTS) $(LNFLAGS)
+
+compile: $(BUILDDIR)/bin/$(EXECUTABLE)
 
 build: clean compile
 
