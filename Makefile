@@ -8,14 +8,7 @@ EXTRAVERSION = -dev
 # Setup compilation binaries
 CC = g++
 CFLAGS = -O2
-LNFLAGS = 
-
-# Setup the make utility
-MAKEFLAGS += -rR --no-print-directory
-unexport LC_ALL
-LC_COLLATE = C
-LC_NUMERIC = C
-export LC_COLLATE LC_NUMERIC
+LNFLAGS = -lm
 
 # Project informations
 SOURCES = main.cpp
