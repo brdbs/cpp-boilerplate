@@ -15,7 +15,8 @@ SOURCES = main.cpp
 EXECUTABLE = myproject
 
 # Auto-generated-variables
-BUILDDIR = build/$(NAME)-$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)-$(EXTRAVERSION)
+VERSIONNEDNAME = $(NAME)-$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)-$(EXTRAVERSION)
+BUILDDIR = build/$(VERSIONNEDNAME)
 OBJECTS = $(SOURCES:%.cpp=$(BUILDDIR)/%.o)
 
 # Implicit rules
@@ -37,3 +38,9 @@ build: clean compile
 
 run: compile
 	./$(BUILDDIR)/bin/$(EXECUTABLE)
+
+compress: compile
+	mkdir -p tarballs
+	cd build; \
+	rm -f $(VERSIONNEDNAME)/*.o; \
+	tar -cvzf ../tarballs/$(VERSIONNEDNAME).tar.gz $(VERSIONNEDNAME);
