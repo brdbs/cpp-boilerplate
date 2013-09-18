@@ -31,4 +31,4 @@ compile: $(OBJECTS)
 build: clean compile
 
 run: compile
-	./$(EXECUTABLE)
+	./build/bin/$(EXECUTABLE)
