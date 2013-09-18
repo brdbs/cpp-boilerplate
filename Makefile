@@ -7,7 +7,7 @@ EXTRAVERSION = -dev
 
 # Setup compilation binaries
 CC = g++
-CFLAGS = -O2
+CFLAGS = -O2 -c
 LNFLAGS = -lm
 
 # Project informations
@@ -17,7 +17,7 @@ EXECUTABLE = myproject
 # Implicit rules
 build/%.o: src/%.cpp
 	mkdir -p build
-	$(CC) $(CCFLAGS) -o $(<:src/%.cpp=build/%.o) $<
+	$(CC) $(CFLAGS) -o $(<:src/%.cpp=build/%.o) $<
 
 # Explicit rules
 clean:
