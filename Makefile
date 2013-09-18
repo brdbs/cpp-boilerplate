@@ -3,7 +3,7 @@ NAME = MyProject
 VERSION = 0
 PATCHLEVEL = 1
 SUBLEVEL = 0
-EXTRAVERSION = -dev
+EXTRAVERSION = dev
 
 # Setup compilation binaries
 CC = g++
@@ -15,20 +15,21 @@ SOURCES = main.cpp
 EXECUTABLE = myproject
 
 # Implicit rules
-build/%.o: src/%.cpp
-	mkdir -p build
-	$(CC) $(CFLAGS) -o $(<:src/%.cpp=build/%.o) $<
+BUILDDIR = build/$(NAME)-$(VERSION).$(PATCHLEVEL).$(SUBLEVEL)-$(EXTRAVERSION)
+$(BUILDDIR)/%.o: src/%.cpp
+	mkdir -p $(BUILDDIR)
+	$(CC) $(CFLAGS) -o $(<:src/%.cpp=$(BUILDDIR)/%.o) $<
 
 # Explicit rules
 clean:
-	rm -rf build
+	rm -rf $(BUILDDIR)
 
-OBJECTS = $(SOURCES:%.cpp=build/%.o)
+OBJECTS = $(SOURCES:%.cpp=$(BUILDDIR)/%.o)
 compile: $(OBJECTS)
-	mkdir -p build/bin
-	$(CC) -o build/bin/$(EXECUTABLE) $(OBJECTS) $(LNFLAGS)
+	mkdir -p $(BUILDDIR)/bin
+	$(CC) -o $(BUILDDIR)/bin/$(EXECUTABLE) $(OBJECTS) $(LNFLAGS)
 
 build: clean compile
 
 run: compile
-	./build/bin/$(EXECUTABLE)
+	./$(BUILDDIR)/bin/$(EXECUTABLE)
